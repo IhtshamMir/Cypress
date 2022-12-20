@@ -1,0 +1,37 @@
+cy.visit('www.google.com')  // Visit any site
+cy.get('.class').type('Help') // Go to particular class and type
+cy.get('.class').click() //Go to particular class and click
+cy.contains('Discover').click() // find particular text and click
+cy.wait(4000); // wait for 4 seconds
+"defaultCommandLoadtime": 6000ms // global timeout
+// Implicit  Assertions
+cy.get('.jss2700')
+        .should('contain','Forgot')
+        .should('have.class', 'jss2700')    
+        .should('be.visible')     
+        .should('be.enabled')
+
+cy.get('.jss2700').invoke('attr','class')
+        .should('equal','jss2700')         // should equal assertion
+
+
+
+// Explicit Assertions
+
+expect(name).to.be.equal('Ihtsham')
+assert.equal(4,4,'Not equal')
+
+npm install mochawesome , mochawesome-report-generator,  // install following pkgs for generating html reports
+npx cypress run --reporter mochawesome
+npx  mochawesome-merge .\cypress\reports\*.json | out-file -encoding ascii report1.json
+npx marge .\report1.json --reportDir .\cypress\reports
+
+// generate HTML reports through script
+script{
+    "pretest": "rimraf -r ./cypress/reports/*.json",
+    "test":"npm run createReport || npm run posttest ",
+    "posttest": "npm run merge-reports &&  npm run generate-HTMLreport",
+    "createReport": "npx cypress run --reporter mochawesome",
+    "merge-reports": "npx mochawesome-merge ./cypress/reports/*.json > report1.json",
+    "generate-HTMLreport": "npx marge ./report1.json --reportDir ./cypress/reports"
+}
